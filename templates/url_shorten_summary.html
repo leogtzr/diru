@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>{{ .title }}</title>
+
+  <!-- Bootstrap core CSS -->
+  <link href="/assets/css/bootstrap.min.css" rel="stylesheet">
+
+  <link rel="icon" href="data:;base64,=">
+
+  <!-- Custom styles for this template -->
+  <link href="/assets/css/littleu.css" rel="stylesheet">
+
+  <script src="/assets/js/popper.min.js"></script>
+  <script src="/assets/js/bootstrap.min.js"></script>
+  <script src="/assets/js/jquery-3.5.1.min.js"></script>
+  <script src="/assets/js/littleu.js"></script>
+
+</head>
+
+<body>
+
+  <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+    <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item active">
+          <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/stats">Stats</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+  <main role="main">
+
+    <!-- Main jumbotron for a primary marketing message or call to action -->
+    <div class="jumbotron">
+
+      <div class="container">
+
+        <div class="url_short_summary">
+          <h1>littleu link</h1>
+          <a href={{ .littleu_link }}><span id="url_clipboard"><strong>{{ .littleu_link }}</strong></span></a>
+          <button onclick="copyToClipboard('#url_clipboard')" type="button" class="btn btn-outline-success">COPY</button>
+        </div>
+
+        <hr>
+
+        <div class="custom_littleu_link">
+          <h2>Customize link</h2>
+          <form method="post" action="/u/changelink">
+            <div class="form-group form_change_link">
+              <label for="url">Current -> <i><a href={{ .littleu_link }}>{{ .littleu_link }}</a></i></label>
+              <input type="text" class="form-control littleu_link_to_change" id="new_url" name="new_url" placeholder={{ .short_url }}>
+              <input type="hidden" value={{ .short_url }} id="url" name="url" />
+            </div>
+            <button type="submit" class="btn btn-primary">Change</button>
+          </form>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="row">
+        <div class="col-md-4">
+          <h2>A</h2>
+          <ul class="list-group list-group-flush" id="a">
+            <!-- <li class="list-group-item">Cras justo odio</li> -->
+            <!-- <li class="list-group-item">Vestibulum at eros</li> -->
+          </ul>
+        </div>
+        <div class="col-md-4">
+          <h2>B</h2>
+          <ul class="list-group list-group-flush" id="b">
+            <!-- <li class="list-group-item">Cras justo odio</li> -->
+            <!-- <li class="list-group-item">Morbi leo risus</li> -->
+          </ul>
+        </div>
+        <div class="col-md-4">
+          <h2>C</h2>
+          <ul class="list-group list-group-flush" id="c">
+            <!-- <li class="list-group-item">Cras justo odio</li> -->
+            <!-- <li class="list-group-item">Dapibus ac facilisis in</li> -->
+          </ul>
+        </div>
+      </div>
+
+      <hr>
+
+    </div> <!-- /container -->
+
+  </main>
+
+  <footer class="container">
+    <p>&copy; littleu 2021</p>
+  </footer>
+
+</body>
+</html>
