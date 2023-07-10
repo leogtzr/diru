@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"html/template"
 	"net"
 	"net/http"
 	"time"
@@ -41,6 +42,10 @@ func shorturl(c *gin.Context) {
 	domain := net.JoinHostPort(fqdnHostName, serverPort)
 
 	littleuLink := fmt.Sprintf("%s/u/%s", domain, shortURL)
+	fmt.Printf("url.URL = [%s]\n", url.URL)
+	fmt.Printf("shortURL = [%s]\n", shortURL)
+	fmt.Printf("domain = [%s]\n", domain)
+	fmt.Printf("littleuLink = [%s]\n", littleuLink)
 
 	c.HTML(
 		http.StatusOK,
@@ -50,7 +55,7 @@ func shorturl(c *gin.Context) {
 			"url":          url.URL,
 			"short_url":    shortURL,
 			"domain":       domain,
-			"littleu_link": littleuLink,
+			"littleu_link": template.URL(littleuLink),
 		},
 	)
 }
@@ -131,15 +136,6 @@ func render(c *gin.Context, data gin.H, templateName string) {
 		// Respond with HTML
 		c.HTML(http.StatusOK, templateName, data)
 	}
-}
-
-func viewUsers(c *gin.Context) {
-	users, err := (*userDAO).findAll()
-	if err != nil {
-		_ = c.AbortWithError(http.StatusInternalServerError, err)
-	}
-
-	c.JSON(http.StatusOK, users)
 }
 
 func viewURLs(c *gin.Context) {

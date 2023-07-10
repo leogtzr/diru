@@ -18,7 +18,7 @@ type URLChange struct {
 // URLStat ...
 type URLStat struct {
 	ShortID int    `json:"id"`
-	Url     string `json:"url"`
+	URL     string `json:"url"`
 }
 
 // URLStatFull is basically a URLStat but instead of the short ID, it has the short URL corresponding

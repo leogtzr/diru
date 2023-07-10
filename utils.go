@@ -74,7 +74,7 @@ func urlsToFullStat(urls *[]URLStat) []URLStatFull {
 		shortURL := idToShortURL(u.ShortID, chars)
 		urlFull = append(urlFull, URLStatFull{
 			ShortURL:    shortURL,
-			OriginalURL: u.Url,
+			OriginalURL: u.URL,
 		})
 	}
 

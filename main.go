@@ -20,8 +20,7 @@ func init() {
 	var err error
 
 	envConfig, err = readConfig("config.env", ".", map[string]interface{}{
-		"dbengine": "memory",
-		"port":     "8080",
+		"port": "8080",
 	})
 
 	if err != nil {
@@ -34,9 +33,8 @@ func init() {
 	ctx = context.TODO()
 
 	// Initialize DB:
-	urlDAO = factoryURLDao(envConfig)
-	userDAO = factoryUserDAO(envConfig)
-	statsDAO = factoryStatsDao(envConfig)
+	urlDAO = factoryURLDao()
+	statsDAO = factoryStatsDao()
 
 	gob.Register(&UserInMemory{})
 }
