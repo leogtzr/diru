@@ -1,4 +1,4 @@
-module diru
+module surl
 
 go 1.15
 

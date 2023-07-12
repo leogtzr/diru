@@ -1,6 +1,6 @@
 .DEFAULT_GOAL := build
 
-BIN_FILE=diru
+BIN_FILE=surl
 
 build:
 	@go build -o "${BIN_FILE}"

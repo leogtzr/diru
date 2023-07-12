@@ -41,21 +41,21 @@ func shorturl(c *gin.Context) {
 
 	domain := net.JoinHostPort(fqdnHostName, serverPort)
 
-	littleuLink := fmt.Sprintf("%s/u/%s", domain, shortURL)
+	surlLink := fmt.Sprintf("%s/u/%s", domain, shortURL)
 	fmt.Printf("url.URL = [%s]\n", url.URL)
 	fmt.Printf("shortURL = [%s]\n", shortURL)
 	fmt.Printf("domain = [%s]\n", domain)
-	fmt.Printf("littleuLink = [%s]\n", littleuLink)
+	fmt.Printf("surlLink = [%s]\n", surlLink)
 
 	c.HTML(
 		http.StatusOK,
 		"url_shorten_summary.html",
 		gin.H{
-			"title":        "Home",
-			"url":          url.URL,
-			"short_url":    shortURL,
-			"domain":       domain,
-			"littleu_link": template.URL(littleuLink),
+			"title":     "Home",
+			"url":       url.URL,
+			"short_url": shortURL,
+			"domain":    domain,
+			"surl_link": template.URL(surlLink),
 		},
 	)
 }
@@ -90,9 +90,9 @@ func changeLink(c *gin.Context) {
 
 	c.HTML(
 		http.StatusOK,
-		"littleu_linkchanged.html",
+		"surl_linkchanged.html",
 		gin.H{
-			"title":     "littleu - link changed",
+			"title":     "surl - link changed",
 			"from_link": url.ShortURL,
 			"to_link":   url.NewURL,
 		},

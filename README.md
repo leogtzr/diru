@@ -1,10 +1,10 @@
-# diru
+# surl
 
-**diru** is a small project to shorten long URLs written in Go.
+**surl** is a small project to shorten long URLs written in Go.
 
-![littleu-homepag](imgs/homepage.png)
+![surl-homepag](imgs/homepage.png)
 
 After you shorten a URL it will look like this (might be changed)
 
-![littleu-shortenedurl](imgs/urlshort.png)
+![surl-shortenedurl](imgs/urlshort.png)
 
