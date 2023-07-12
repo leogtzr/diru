@@ -2,7 +2,9 @@
 package main
 
 import (
-	"context"
+	"html/template"
+	"time"
+
 	"encoding/gob"
 	"fmt"
 	"log"
@@ -10,11 +12,6 @@ import (
 	"os"
 
 	"github.com/gin-gonic/gin"
-)
-
-const (
-	// MaxIdleConnections ...
-	MaxIdleConnections = 10
 )
 
 func init() {
@@ -31,7 +28,7 @@ func init() {
 
 	serverPort = envConfig.GetString("port")
 
-	ctx = context.TODO()
+	// ctx = context.TODO()
 
 	// Initialize DB:
 	urlDAO = factoryURLDao()
@@ -51,7 +48,20 @@ func main() {
 
 	// Process the templates at the start so that they don't have to be loaded
 	// from the disk again. This makes serving HTML pages very fast.
-	router.LoadHTMLGlob("templates/*")
+	//router.LoadHTMLGlob("templates/*")
+
+	// Parse the templates directory
+	tmpl, err := template.New("").Funcs(template.FuncMap{
+		"currentYear": func() int {
+			return time.Now().Year()
+		},
+	}).ParseGlob("templates/*")
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	// Set the template engine
+	router.SetHTMLTemplate(tmpl)
 
 	// Initialize the routes
 	initializeRoutes(envConfig)
