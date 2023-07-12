@@ -38,7 +38,7 @@ type UserInMemory struct {
 }
 
 // StatsInMemory ...
-type StatsInMemory struct {
+type Stats struct {
 	CreatedAt time.Time
 	ShortID   int
 	UserID    int

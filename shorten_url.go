@@ -42,10 +42,6 @@ func shorturl(c *gin.Context) {
 	domain := net.JoinHostPort(fqdnHostName, serverPort)
 
 	surlLink := fmt.Sprintf("%s/u/%s", domain, shortURL)
-	fmt.Printf("url.URL = [%s]\n", url.URL)
-	fmt.Printf("shortURL = [%s]\n", shortURL)
-	fmt.Printf("domain = [%s]\n", domain)
-	fmt.Printf("surlLink = [%s]\n", surlLink)
 
 	c.HTML(
 		http.StatusOK,
@@ -75,15 +71,11 @@ func changeLink(c *gin.Context) {
 
 	URLID := shortURLToID(url.ShortURL, chars)
 
-	oldURL := URL{
-		URL: url.ShortURL,
-	}
-
 	newURL := URL{
 		URL: url.NewURL,
 	}
 
-	_, err := (*urlDAO).update(URLID, oldURL, newURL)
+	_, err := (*urlDAO).update(URLID, newURL)
 	if err != nil {
 		_ = c.AbortWithError(http.StatusInternalServerError, err)
 	}

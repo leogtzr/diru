@@ -14,14 +14,9 @@ type InMemoryURLDAOImpl struct {
 	DB *memoryDB
 }
 
-// InMemoryUserDAOImpl ...
-type InMemoryUserDAOImpl struct {
-	db map[string]UserInMemory
-}
-
 // StatsDAOMemoryImpl ...
 type StatsDAOMemoryImpl struct {
-	db map[int][]StatsInMemory
+	db map[int][]Stats
 }
 
 func (im InMemoryURLDAOImpl) save(url URL) (int, error) {
@@ -63,7 +58,7 @@ func (im InMemoryURLDAOImpl) findByID(id int) (URL, error) {
 	return URL{}, errorURLNotFound(id)
 }
 
-func (im InMemoryURLDAOImpl) update(id int, oldURL, newURL URL) (int, error) {
+func (im InMemoryURLDAOImpl) update(id int, newURL URL) (int, error) {
 	mu.Lock()
 	defer mu.Unlock()
 
@@ -83,7 +78,7 @@ func (im InMemoryURLDAOImpl) update(id int, oldURL, newURL URL) (int, error) {
 func (dao StatsDAOMemoryImpl) save(shortURL string, headers *map[string][]string) (int, error) {
 	urlShortID := shortURLToID(shortURL, chars)
 
-	stat := StatsInMemory{
+	stat := Stats{
 		CreatedAt: time.Now(),
 		ShortID:   urlShortID,
 		Headers:   *headers,
@@ -94,10 +89,16 @@ func (dao StatsDAOMemoryImpl) save(shortURL string, headers *map[string][]string
 	return 0, nil
 }
 
-func (dao StatsDAOMemoryImpl) findByShortID(shortID int) ([]interface{}, error) {
-	return []interface{}{}, nil
+func (dao StatsDAOMemoryImpl) findByShortID(shortID int) ([]Stats, error) {
+	for urlShortID, stats := range dao.db {
+		if urlShortID == shortID {
+			return stats, nil
+		}
+	}
+
+	return []Stats{}, nil
 }
 
-func (dao StatsDAOMemoryImpl) findAll() (map[int][]StatsInMemory, error) {
+func (dao StatsDAOMemoryImpl) findAll() (map[int][]Stats, error) {
 	return dao.db, nil
 }
