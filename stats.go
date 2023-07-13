@@ -4,14 +4,10 @@ import (
 	"fmt"
 	"net/http"
 
-	"net"
-
-	"github.com/Showmax/go-fqdn"
 	"github.com/gin-gonic/gin"
-	"github.com/spf13/viper"
 )
 
-func showStatsPage(config *viper.Viper) gin.HandlerFunc {
+func showStatsPage() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		urlStats, err := (*urlDAO).findAllByUser()
 		if err != nil {
@@ -27,22 +23,14 @@ func showStatsPage(config *viper.Viper) gin.HandlerFunc {
 			return
 		}
 
-		fqdnHostName, err := fqdn.FqdnHostname()
-		if err != nil {
-			_ = c.AbortWithError(http.StatusInternalServerError, err)
-		}
-
-		domain := net.JoinHostPort(fqdnHostName, config.GetString("port"))
-
 		urlsFull := urlsToFullStat(&urlStats)
 
 		c.HTML(
 			http.StatusOK,
 			"stats.html",
 			gin.H{
-				"title":  "URL Stats",
-				"domain": domain,
-				"urls":   urlsFull,
+				"title": "URL Stats",
+				"urls":  urlsFull,
 			},
 		)
 	}

@@ -3,12 +3,12 @@ package main
 
 import (
 	"html/template"
+	"log"
+	"net"
 	"time"
 
 	"encoding/gob"
 	"fmt"
-	"log"
-	"net"
 	"os"
 
 	"github.com/gin-gonic/gin"
@@ -28,8 +28,6 @@ func init() {
 
 	serverPort = envConfig.GetString("port")
 
-	// ctx = context.TODO()
-
 	// Initialize DB:
 	urlDAO = factoryURLDao()
 	statsDAO = factoryStatsDao()
@@ -38,35 +36,19 @@ func init() {
 }
 
 func main() {
-	// Set Gin to production mode
 	gin.SetMode(gin.ReleaseMode)
 
-	// Set the router as the default one provided by Gin
 	router = gin.Default()
-
-	router.Static("/assets", "./assets")
-
-	// Process the templates at the start so that they don't have to be loaded
-	// from the disk again. This makes serving HTML pages very fast.
-	//router.LoadHTMLGlob("templates/*")
-
-	// Parse the templates directory
-	tmpl, err := template.New("").Funcs(template.FuncMap{
+	router.SetFuncMap(template.FuncMap{
 		"currentYear": func() int {
 			return time.Now().Year()
 		},
-	}).ParseGlob("templates/*")
-	if err != nil {
-		log.Fatal(err)
-	}
+	})
+	router.Static("/assets", "./assets")
+	router.LoadHTMLGlob("templates/*.html")
 
-	// Set the template engine
-	router.SetHTMLTemplate(tmpl)
+	initializeRoutes()
 
-	// Initialize the routes
-	initializeRoutes(envConfig)
-
-	// Start serving the applications
 	if err := router.Run(net.JoinHostPort("", serverPort)); err != nil {
 		log.Fatal(err)
 	}
