@@ -7,7 +7,6 @@ import (
 	"net"
 	"time"
 
-	"encoding/gob"
 	"fmt"
 	"os"
 
@@ -31,8 +30,6 @@ func init() {
 	// Initialize DB:
 	urlDAO = factoryURLDao()
 	statsDAO = factoryStatsDao()
-
-	gob.Register(&UserInMemory{})
 }
 
 func main() {

@@ -5,15 +5,9 @@ import (
 	"html/template"
 	"net"
 	"net/http"
-	"time"
 
 	"github.com/Showmax/go-fqdn"
 	"github.com/gin-gonic/gin"
-)
-
-const (
-	// Hours24 ...
-	Hours24 = time.Hour * 24 * 7
 )
 
 func showIndexPage(c *gin.Context) {

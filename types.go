@@ -28,33 +28,10 @@ type URLStatFull struct {
 	OriginalURL string `json:"original_url"`
 }
 
-// UserInMemory ...
-type UserInMemory struct {
-	ID        uint64
-	CreatedAt time.Time
-	UpdatedAt time.Time
-	User      string
-	Password  string
-}
-
 // Stats ...
 type Stats struct {
 	CreatedAt time.Time
 	ShortID   int
 	UserID    int
 	Headers   map[string][]string
-}
-
-// StatsHeadersPostgresql ...
-type StatsHeadersPostgresql struct {
-	/*
-			id serial PRIMARY KEY NOT NULL,
-			name varchar(150) NOT NULL,
-			value varchar(500) NOT NULL,
-			stat_id int NOT NULL,
-		    constraint fk_stats_headers
-		        foreign key (stat_id)
-		        REFERENCES stats (id)
-	*/
-
 }

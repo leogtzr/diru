@@ -37,14 +37,14 @@ func shortURLToID(shortURL string, mChars []rune) int {
 	mapCharsSize := len(mChars)
 	id := 0
 
-	for _, i := range shortURL {
-		c := int(i)
-		if c >= int('a') && c <= int('z') {
-			id = id*mapCharsSize + c - int('a')
-		} else if c >= int('A') && c <= int('Z') {
-			id = id*mapCharsSize + c - int('Z') + 26
-		} else {
-			id = id*mapCharsSize + c - int('0') + 52
+	for _, char := range shortURL {
+		switch {
+		case char >= 'a' && char <= 'z':
+			id = id*mapCharsSize + int(char-'a')
+		case char >= 'A' && char <= 'Z':
+			id = id*mapCharsSize + int(char-'A') + 26
+		case char >= '0' && char <= '9':
+			id = id*mapCharsSize + int(char-'0') + 52
 		}
 	}
 

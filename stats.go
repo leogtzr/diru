@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -65,8 +64,6 @@ func viewStats(c *gin.Context) {
 	if err != nil {
 		_ = c.AbortWithError(http.StatusInternalServerError, err)
 	}
-
-	fmt.Println(stats)
 
 	c.JSON(http.StatusOK, stats)
 }
