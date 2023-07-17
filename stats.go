@@ -6,33 +6,31 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func showStatsPage() gin.HandlerFunc {
-	return func(c *gin.Context) {
-		urlStats, err := (*urlDAO).findAllByUser()
-		if err != nil {
-			c.HTML(
-				http.StatusInternalServerError,
-				"error5xx.html",
-				gin.H{
-					"title":             "Error",
-					"error_description": err.Error(),
-				},
-			)
-
-			return
-		}
-
-		urlsFull := urlsToFullStat(&urlStats)
-
+func showStatsPage(c *gin.Context) {
+	urlStats, err := (*urlDAO).findAllByUser()
+	if err != nil {
 		c.HTML(
-			http.StatusOK,
-			"stats.html",
+			http.StatusInternalServerError,
+			"error5xx.html",
 			gin.H{
-				"title": "URL Stats",
-				"urls":  urlsFull,
+				"title":             "Error",
+				"error_description": err.Error(),
 			},
 		)
+
+		return
 	}
+
+	urlsFull := urlsToFullStat(&urlStats)
+
+	c.HTML(
+		http.StatusOK,
+		"stats.html",
+		gin.H{
+			"title": "URL Stats",
+			"urls":  urlsFull,
+		},
+	)
 }
 
 func urlStats() gin.HandlerFunc {

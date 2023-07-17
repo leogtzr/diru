@@ -6,7 +6,7 @@ import (
 	"github.com/spf13/viper"
 )
 
-var chars = []rune("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789")
+var chars = []rune("_abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789")
 
 func reverse(s string) string {
 	size := len(s)
@@ -40,11 +40,11 @@ func shortURLToID(shortURL string, mChars []rune) int {
 	for _, char := range shortURL {
 		switch {
 		case char >= 'a' && char <= 'z':
-			id = id*mapCharsSize + int(char-'a')
+			id = id*mapCharsSize + int(char-'a') + 1
 		case char >= 'A' && char <= 'Z':
-			id = id*mapCharsSize + int(char-'A') + 26
+			id = id*mapCharsSize + int(char-'A') + 26 + 1
 		case char >= '0' && char <= '9':
-			id = id*mapCharsSize + int(char-'0') + 52
+			id = id*mapCharsSize + int(char-'0') + 52 + 1
 		}
 	}
 

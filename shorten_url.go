@@ -88,6 +88,8 @@ func redirectShortURL(c *gin.Context) {
 	shortURLParam := c.Param("url")
 	id := shortURLToID(shortURLParam, chars)
 
+	fmt.Printf("Trying to find -> [%d], param '%s'\n", id, shortURLParam)
+
 	urlFromDB, err := (*urlDAO).findByID(id)
 	if err != nil {
 		c.HTML(
