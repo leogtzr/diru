@@ -49,18 +49,9 @@ func shorturl(c *gin.Context) {
 	)
 }
 
-func debugURLSIDs(urls ...string) {
-	for _, url := range urls {
-		id := shortURLToID(url, chars)
-		fmt.Printf("The id for '%s' is %d\n", url, id)
-	}
-}
-
 func changeLink(c *gin.Context) {
 	var url URLChange
 	_ = c.ShouldBind(&url)
-
-	debugURLSIDs(url.NewURL, url.ShortURL)
 
 	URLID := shortURLToID(url.ShortURL, chars)
 

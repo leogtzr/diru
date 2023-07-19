@@ -2,6 +2,7 @@
 package main
 
 import (
+	"context"
 	"html/template"
 	"log"
 	"net"
@@ -11,7 +12,13 @@ import (
 	"os"
 
 	"github.com/gin-gonic/gin"
+	"github.com/go-redis/redis"
+
+	"github.com/gin-contrib/sessions"
+	redisSession "github.com/gin-contrib/sessions/redis"
 )
+
+var Ctx = context.Background()
 
 func init() {
 	var err error
@@ -30,7 +37,34 @@ func init() {
 	// Initialize DB:
 	urlDAO = factoryURLDao()
 	statsDAO = factoryStatsDao()
+
+	// REDIS_DSN=localhost:6379
+	dsn := "localhost:6379"
+	redisClient = redis.NewClient(&redis.Options{
+		Addr: dsn,
+	})
+
+	_, err = redisClient.Ping().Result()
+	if err != nil {
+		_, _ = fmt.Fprintf(os.Stderr, "error: %s\n", err)
+		os.Exit(1)
+	}
 }
+
+func CreateClient(dbNo int) *redis.Client {
+	rdb := redis.NewClient(&redis.Options{
+		Addr:     os.Getenv("DB_ADDR"),
+		Password: os.Getenv("DB_PASS"),
+		DB:       dbNo,
+	})
+
+	return rdb
+}
+
+const (
+	// MaxIdleConnections ...
+	MaxIdleConnections = 10
+)
 
 func main() {
 	gin.SetMode(gin.ReleaseMode)
@@ -43,6 +77,10 @@ func main() {
 	})
 	router.Static("/assets", "./assets")
 	router.LoadHTMLGlob("templates/*.html")
+
+	dsn := "localhost:6379"
+	store, _ := redisSession.NewStore(MaxIdleConnections, "tcp", dsn, "", []byte(envConfig.GetString("SESSION_SECRET")))
+	router.Use(sessions.Sessions("sid", store))
 
 	initializeRoutes()
 

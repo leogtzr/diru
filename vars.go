@@ -4,6 +4,7 @@ import (
 	"sync"
 
 	"github.com/gin-gonic/gin"
+	"github.com/go-redis/redis"
 	"github.com/spf13/viper"
 )
 
@@ -18,4 +19,6 @@ var (
 	statsDAO  *StatsDAO
 
 	serverPort string
+
+	redisClient *redis.Client
 )
