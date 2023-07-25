@@ -39,7 +39,7 @@ func init() {
 	statsDAO = factoryStatsDao()
 
 	// REDIS_DSN=localhost:6379
-	dsn := "localhost:6379"
+	dsn := "redis:6379"
 	redisClient = redis.NewClient(&redis.Options{
 		Addr: dsn,
 	})
@@ -78,9 +78,14 @@ func main() {
 	router.Static("/assets", "./assets")
 	router.LoadHTMLGlob("templates/*.html")
 
-	dsn := "localhost:6379"
+	dsn := "redis:6379"
 	store, _ := redisSession.NewStore(MaxIdleConnections, "tcp", dsn, "", []byte(envConfig.GetString("SESSION_SECRET")))
 	router.Use(sessions.Sessions("sid", store))
+
+	/*
+		if someError := redisClient.Set("bb", "b", -1).Err(); someError != nil {
+			log.Fatal(someError)
+		}*/
 
 	initializeRoutes()
 
