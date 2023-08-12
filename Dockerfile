@@ -8,5 +8,9 @@ COPY . .
 
 RUN go build -o surl
 
-CMD ["bash", "-c", "redis-server & ./surl"]
+# Add entry point script
+COPY entrypoint.sh /app/entrypoint.sh
+RUN chmod +x /app/entrypoint.sh
 
+# Use entry point script
+CMD ["/app/entrypoint.sh"]

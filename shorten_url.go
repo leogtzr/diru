@@ -5,8 +5,8 @@ import (
 	"html/template"
 	"net"
 	"net/http"
+	"os"
 
-	"github.com/Showmax/go-fqdn"
 	"github.com/gin-gonic/gin"
 )
 
@@ -27,14 +27,17 @@ func shorturl(c *gin.Context) {
 	id, _ := (*urlDAO).save(url)
 	shortURL := idToShortURL(id, chars)
 
-	fqdnHostName, err := fqdn.FqdnHostname()
-	if err != nil {
-		_ = c.AbortWithError(http.StatusInternalServerError, err)
+	hostname := os.Getenv("HOSTNAME")
+	if hostname == "" {
+		fmt.Println("HOSTNAME environment variable not set")
+		return
 	}
+	protocol := "http"
 
-	domain := net.JoinHostPort(fqdnHostName, serverPort)
+	// Construct your URL using the retrieved hostname
+	domain := net.JoinHostPort(hostname, serverPort)
 
-	surlLink := fmt.Sprintf("%s/u/%s", domain, shortURL)
+	surlLink := fmt.Sprintf("%s://%s/u/%s", protocol, domain, shortURL)
 
 	c.HTML(
 		http.StatusOK,

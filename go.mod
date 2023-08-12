@@ -3,7 +3,6 @@ module surl
 go 1.15
 
 require (
-	github.com/Showmax/go-fqdn v1.0.0
 	github.com/bytedance/sonic v1.9.2 // indirect
 	github.com/gin-contrib/sessions v0.0.5
 	github.com/gin-gonic/gin v1.9.1
